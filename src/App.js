@@ -26,10 +26,10 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header"></header>
+      <header className="App-header">{!user ? <SignIn/> : <SignOut/>}</header>
 
       <section>
-        {user ? <ChatRoom /> : <SignIn />}
+        {user && <ChatRoom/>}
       </section>
     </div>
   )
@@ -89,7 +89,6 @@ function ChatRoom() {
   
   return(
     <>
-      <SignOut />
       <main>
         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
 
