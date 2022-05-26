@@ -1,5 +1,5 @@
-const functions = require('firebase/functions')
-const Filter = require('bad-words')
+// const functions = require('firebase/functions')
+// const Filter = require('bad-words')
 
-const admin = require('firebase')
+// const admin = require('firebase')
 
