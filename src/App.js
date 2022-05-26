@@ -26,12 +26,24 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">{!user ? <SignIn/> : <SignOut/>}</header>
+      <header className="App-header">
+        {!user ? <SignIn/> : <SignOut/>}
+        <div className="App-title">NiteChat</div>
+      </header>
 
       <section>
-        {user && <ChatRoom/>}
+        {user ? <ChatRoom/> : <WelcomePage/>}
       </section>
     </div>
+  )
+}
+
+function WelcomePage() {
+  return (
+    <>
+      <div className='App-welcome'>Welcome to NiteChat!</div><br/>
+      <div className='App-creator'>Created by Joseph Evans</div>
+    </>
   )
 }
 
@@ -68,7 +80,7 @@ function ChatRoom() {
   const query = Firestore.query(messagesRef, order, limit)
 
   const [messages] = useCollectionData(query, {idField: 'id'})
-  console.log(messages)
+  // console.log(messages)
 
   const [formValue, setFormValue] = useState('')
 

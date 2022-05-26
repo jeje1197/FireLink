@@ -8,6 +8,16 @@ body {
   margin: 0 auto;
 }
 
+.App-welcome {
+  color: white;
+  font-size: 2.75rem;
+}
+
+.App-creator {
+  color: white;
+  font-size: 1.25rem;
+}
+
 .App header {
   background-color: #181717;
   height: 10vh;
@@ -70,7 +80,6 @@ form button {
   background-color: rgb(56, 56, 143);
 }
 
-
 input {
   line-height: 1.5;
   width: 100%;
@@ -82,8 +91,16 @@ input {
   padding: 0 10px;
 }
 
+.App-title{
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.25rem;
+}
+
 button {
-  background-color: rgb(24, 23, 23); /* Green */
+  background-color: rgb(24, 23, 23);
   border: none;
   color: white;
   padding: 15px 32px;
@@ -92,6 +109,10 @@ button {
   display: inline-block;
   cursor: pointer;
   font-size: 1.25rem;
+}
+
+header button{
+  border: 2px solid white;
 }
 
 button:disabled {
