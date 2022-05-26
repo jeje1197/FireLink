@@ -10,12 +10,12 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 // Initialize app & get auth
 const app = Firebase.initializeApp({
-  apiKey: "AIzaSyBNw4baFbf65jFVckENHmZ_plmpLnzoHr0",
-  authDomain: "firechat-7dae0.firebaseapp.com",
-  projectId: "firechat-7dae0",
-  storageBucket: "firechat-7dae0.appspot.com",
-  messagingSenderId: "607525743098",
-  appId: "1:607525743098:web:cdb32ebea006a38f7adc43"
+  apiKey: "AIzaSyBtmgEtMCtWxKG4KJfpua08v8Xd82zp3KY",
+  authDomain: "nitechat-4aef3.firebaseapp.com",
+  projectId: "nitechat-4aef3",
+  storageBucket: "nitechat-4aef3.appspot.com",
+  messagingSenderId: "884212553000",
+  appId: "1:884212553000:web:dd2d3d73738552bdcaec1d"
 });
 
 const auth = FirebaseAuth.getAuth(app)
