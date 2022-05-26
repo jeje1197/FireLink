@@ -5,9 +5,8 @@ import * as Firebase from 'firebase/app'
 import * as Firestore from 'firebase/firestore'
 import * as FirebaseAuth from 'firebase/auth';
 
-import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { async } from '@firebase/util';
 
 
 const app = Firebase.initializeApp({
@@ -37,14 +36,14 @@ function App() {
 }
 
 function SignIn() {
-  console.log('SignIn')
+  // console.log('SignIn')
   const signInWithGoogle = () => {
     const provider = new FirebaseAuth.GoogleAuthProvider();
     FirebaseAuth.signInWithPopup(auth, provider);
   }
 
   return (
-    <button onClick={signInWithGoogle}>Sign in with Google :</button>
+    <button onClick={signInWithGoogle}>Sign in with Google</button>
   )
 }
 
@@ -91,6 +90,7 @@ function ChatRoom() {
   return(
     <>
       <main>
+      <SignOut />
         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
         
         <div ref={dummy}> </div>
