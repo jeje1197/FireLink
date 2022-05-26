@@ -89,11 +89,11 @@ function ChatRoom() {
   
   return(
     <>
-    <SignOut />
+      <SignOut />
       <main>
         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
 
-        <div ref={dummy}> </div>
+        <div ref={dummy}></div>
       </main>
 
       <form onSubmit={sendMessage}>
@@ -106,7 +106,6 @@ function ChatRoom() {
 
 // Chat message component
 function ChatMessage(props) {
-  console.log('ChatMessage')
   const {text, uid, photoURL} = props.message;
 
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
