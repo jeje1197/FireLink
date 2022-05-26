@@ -63,10 +63,12 @@ function ChatRoom() {
   const messagesRef = Firestore.collection(firestore, 'messages')
   const order = Firestore.orderBy('createdAt', 'asc')
   const limit = Firestore.limit(25)
+  // const where = Firestore.where('uid', '==', auth.currentUser.uid)
 
   const query = Firestore.query(messagesRef, order, limit)
 
   const [messages] = useCollectionData(query, {idField: 'id'})
+  console.log(messages)
 
   const [formValue, setFormValue] = useState('')
 
