@@ -67,7 +67,6 @@ function ChatRoom() {
   const query = Firestore.query(messagesRef, order, limit)
 
   const [messages] = useCollectionData(query, {idField: 'id'})
-  console.log(messages)
 
   const [formValue, setFormValue] = useState('')
 
@@ -107,7 +106,6 @@ function ChatRoom() {
 // Chat message component
 function ChatMessage(props) {
   const {text, uid, photoURL} = props.message;
-  console.log(text)
 
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
