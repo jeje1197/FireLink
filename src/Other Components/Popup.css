@@ -33,9 +33,13 @@
 }
 
 .closePopup {
-    color: black;
+    color: white;
     font-weight: bold;
     border: 1px solid white;
     text-align: center;
     padding: 5px;
+}
+
+.closePopup :hover {
+    background-color: darkslategrey;
 }

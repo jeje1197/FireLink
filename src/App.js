@@ -1,21 +1,23 @@
 import React, { useRef, useState } from 'react';
 import './App.css';
 
-import { app, auth } from './Firebase'
+import { auth, firestore } from './Firebase.js'
 
 import * as Firestore from 'firebase/firestore'
 import * as FirebaseAuth from 'firebase/auth';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 import Popup from './Other Components/Popup';
-import { async } from '@firebase/util';
-import { getDoc } from 'firebase/firestore';
 
 const appName = 'FireLink'
 
-
-
+/* Note to self: A QuerySnapshot is returned from a data request, 
+*  either by calling the getDocs() or useCollectionData().3 methods.
+*  It contains an array of the documents from your request. Use the  
+*  then can call one of the class methmethod on it with a callback
+*  to access the individual document itself
+*/
 // React app component
 function App() {
   const [user] = useAuthState(auth);
@@ -66,32 +68,23 @@ function SignOut() {
 function ChatRoom() {
   const dummy = useRef()
 
-  const db = Firestore.getFirestore(app)
-
-  const messagesRef = Firestore.collection(db, 'messages')
+  const messagesRef = Firestore.collection(firestore, 'messages')
   const order = Firestore.orderBy('createdAt', 'asc')
   const limit = Firestore.limit(25)
-  // const where = Firestore.where('uid', '==', auth.currentUser.uid)
 
   const query = Firestore.query(messagesRef, order, limit)
 
+  // [values, loading, error, snapshot]
+  const snapshot = useCollectionData(query, {idField: 'id'})[3]
 
-  const [messages] = useCollectionData(query, {idField: 'id'})
-  console.log(messages)
-
-  // const grabData = async(e) => {
-  //   Firestore.getDoc(messagesRef)
-  //   await Firestore.deleteDoc(getDoc())
-  // }
-  
   const [formValue, setFormValue] = useState('')
 
-  // Send message when form submit button is clicked
+  // Add message to database when form submit button is clicked
   const sendMessage = async(e) => {
     e.preventDefault();
 
-    if (formValue.trim() == '')
-      return
+    if (formValue.trim() === '')
+      return;
 
     const { uid, photoURL } = auth.currentUser;
 
@@ -108,8 +101,8 @@ function ChatRoom() {
   
   return(
     <>
-      <main>
-        {messages && messages.map(msg => <ChatMessage key={msg.createdAt} elementId ={`${msg.createdAt}`} message={msg} />)}
+      <main className='main-padding'>
+        {snapshot && snapshot.docs.map(msg => <ChatMessage key={msg.id} message={msg} />)}
 
         <div ref={dummy}></div>
       </main>
@@ -124,23 +117,23 @@ function ChatRoom() {
 
 // Chat message component
 function ChatMessage(props) {
-  const {text, uid, photoURL} = props.message;
-  // console.log('ayy')
+  const { text, uid, photoURL } = props.message.data();
+  const { id } = props.message;
 
   const messageClass = (uid === auth.currentUser.uid) ? 'sent' : 'received';
 
-  const photoSrc = photoURL ? photoURL : 'https://i.imgur.com/b4qpoP2.png'
+  const photoSrc = photoURL ? photoURL : 'https://i.imgur.com/b4qpoP2.png';
 
   // Toggle between Popups on connect
   const togglePopup = () => {
-    const popup = document.getElementById(props.elementId);
+    const popup = document.getElementById(id);
     popup.classList.toggle("show");
-    popup.classList.toggle("popuptext")
+    popup.classList.toggle("popuptext");
   }
 
   return (
     <div className={`message ${messageClass}`}>
-      <Popup elementId={props.elementId} message = {props.message}/>
+      <Popup message = {props.message}/>
       <img src={photoSrc} alt=''/>
       <p onClick={togglePopup}>{text}</p>
     </div>
