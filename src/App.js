@@ -1,24 +1,20 @@
 import React, { useRef, useState } from 'react';
 import './App.css';
 
-import * as Firebase from 'firebase/app'
+import { app, auth } from './Firebase'
+
 import * as Firestore from 'firebase/firestore'
 import * as FirebaseAuth from 'firebase/auth';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
+import Popup from './Other Components/Popup';
+import { async } from '@firebase/util';
+import { getDoc } from 'firebase/firestore';
 
-// Initialize app & get auth
-const app = Firebase.initializeApp({
-  apiKey: "AIzaSyBtmgEtMCtWxKG4KJfpua08v8Xd82zp3KY",
-  authDomain: "nitechat-4aef3.firebaseapp.com",
-  projectId: "nitechat-4aef3",
-  storageBucket: "nitechat-4aef3.appspot.com",
-  messagingSenderId: "884212553000",
-  appId: "1:884212553000:web:dd2d3d73738552bdcaec1d"
-});
+const appName = 'FireLink'
 
-const auth = FirebaseAuth.getAuth(app)
+
 
 // React app component
 function App() {
@@ -28,7 +24,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         {!user ? <SignIn/> : <SignOut/>}
-        <div className="App-title">NiteChat</div>
+        <div className="App-title">{appName}</div>
       </header>
 
       <section>
@@ -41,7 +37,7 @@ function App() {
 function WelcomePage() {
   return (
     <>
-      <div className='App-welcome'>Welcome to NiteChat!</div><br/>
+      <div className='App-welcome'>Welcome to {appName}!</div><br/>
       <div className='App-creator'>Created by Joseph Evans</div>
     </>
   )
@@ -70,23 +66,32 @@ function SignOut() {
 function ChatRoom() {
   const dummy = useRef()
 
-  const firestore = Firestore.getFirestore(app)
+  const db = Firestore.getFirestore(app)
 
-  const messagesRef = Firestore.collection(firestore, 'messages')
+  const messagesRef = Firestore.collection(db, 'messages')
   const order = Firestore.orderBy('createdAt', 'asc')
   const limit = Firestore.limit(25)
   // const where = Firestore.where('uid', '==', auth.currentUser.uid)
 
   const query = Firestore.query(messagesRef, order, limit)
 
-  const [messages] = useCollectionData(query, {idField: 'id'})
-  // console.log(messages)
 
+  const [messages] = useCollectionData(query, {idField: 'id'})
+  console.log(messages)
+
+  // const grabData = async(e) => {
+  //   Firestore.getDoc(messagesRef)
+  //   await Firestore.deleteDoc(getDoc())
+  // }
+  
   const [formValue, setFormValue] = useState('')
 
   // Send message when form submit button is clicked
   const sendMessage = async(e) => {
     e.preventDefault();
+
+    if (formValue.trim() == '')
+      return
 
     const { uid, photoURL } = auth.currentUser;
 
@@ -104,7 +109,7 @@ function ChatRoom() {
   return(
     <>
       <main>
-        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+        {messages && messages.map(msg => <ChatMessage key={msg.createdAt} elementId ={`${msg.createdAt}`} message={msg} />)}
 
         <div ref={dummy}></div>
       </main>
@@ -120,13 +125,24 @@ function ChatRoom() {
 // Chat message component
 function ChatMessage(props) {
   const {text, uid, photoURL} = props.message;
+  // console.log('ayy')
 
-  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
+  const messageClass = (uid === auth.currentUser.uid) ? 'sent' : 'received';
+
+  const photoSrc = photoURL ? photoURL : 'https://i.imgur.com/b4qpoP2.png'
+
+  // Toggle between Popups on connect
+  const togglePopup = () => {
+    const popup = document.getElementById(props.elementId);
+    popup.classList.toggle("show");
+    popup.classList.toggle("popuptext")
+  }
 
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoURL} alt=''/>
-      <p>{text}</p>
+      <Popup elementId={props.elementId} message = {props.message}/>
+      <img src={photoSrc} alt=''/>
+      <p onClick={togglePopup}>{text}</p>
     </div>
   )
 }
