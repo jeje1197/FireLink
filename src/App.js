@@ -126,6 +126,9 @@ function ChatMessage(props) {
 
   // Toggle between Popups on connect
   const togglePopup = () => {
+    if (uid !== auth.currentUser.uid)
+      return
+
     const popup = document.getElementById(id);
     popup.classList.toggle("show");
     popup.classList.toggle("popuptext");
@@ -133,7 +136,7 @@ function ChatMessage(props) {
 
   return (
     <div className={`message ${messageClass}`}>
-      <Popup message = {props.message}/>
+      {<Popup message = {props.message}/>}
       <img src={photoSrc} alt=''/>
       <p onClick={togglePopup}>{text}</p>
     </div>
