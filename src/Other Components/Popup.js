@@ -5,26 +5,35 @@ import { firestore } from '../Firebase'
 import { deleteDoc, doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 function Popup(props) {
+    const { uid, createdAt, photoURL} = props.message.data()
     const { id } = props.message
+
 
     // Delete message from database when x is clicked
     const deleteMessage = async() => {
         await deleteDoc(doc(firestore, 'messages', id))
     }
 
-    // Edit message in database
+    // Update message in database
     const editMessage = async() => {
         await setDoc(doc(firestore, 'messages', id), {
-            text: 'Edited Text',
-            edited: serverTimestamp()
+            text: 'Edited Message',
+            editedAt: serverTimestamp(),
+            createdAt,
+            uid,
+            photoURL
         })
+        
+        const popup = document.getElementById(id);
+        popup.classList.toggle("show");
+        popup.classList.toggle("popuptext");
     }
 
     return (
-        <span className="popuptext" id={id}>
-            <div className='editButton' onClick={editMessage}>Edit</div>
-            <div className='closePopup' onClick={deleteMessage}>X</div>
-        </span>
+        <div className="popuptext" id={id}>
+            <div className='edit-button' onClick={editMessage}>Edit</div>
+            <div className='close-button' onClick={deleteMessage}>X</div>
+        </div>
     )
 }
 

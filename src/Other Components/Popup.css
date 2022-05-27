@@ -2,16 +2,13 @@
 .popuptext {
     visibility: hidden;
     width: 160px;
-    background-color: #555;
+    /* background-color: #555; */
     color: #fff;
     text-align: center;
     border-radius: 6px;
     padding: 8px 0;
     position: absolute;
-    z-index: 1;
-    bottom: 125%;
     left: 50%;
-    margin-left: -80px;
 }
   
   /* Toggle this class - hide and show the popup */
@@ -32,14 +29,32 @@
     to {opacity:1 ;}
 }
 
-.closePopup {
+.close-button {
     color: white;
     font-weight: bold;
     border: 1px solid white;
     text-align: center;
+    cursor: pointer;
+    display: inline-flex;
     padding: 5px;
+    margin: 6px;
 }
 
-.closePopup :hover {
+.close-button :hover {
+    background-color: darkslategrey;
+}
+
+.edit-button {
+    color: white;
+    font-weight: bold;
+    border: 1px solid white;
+    text-align: center;
+    cursor: pointer;
+    display: inline-flex;
+    padding: 5px;
+    margin: 6px;
+}
+
+.edit-button :hover {
     background-color: darkslategrey;
 }
