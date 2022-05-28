@@ -1,16 +1,17 @@
 import React, { useRef, useState } from 'react';
 import './App.css';
 
-import { auth, firestore } from './Firebase.js'
+import { auth, firestore } from './Firebase.js';
 
-import * as Firestore from 'firebase/firestore'
+import * as Firestore from 'firebase/firestore';
 import * as FirebaseAuth from 'firebase/auth';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import Popup from './Other Components/Popup';
+import { HHMM_AMPM } from './Helpers/DateFormatter';
 
-const appName = 'FireLink'
+const appName = 'FireLink';
 
 /* Note to self: A QuerySnapshot is returned from a data request, 
 *  either by calling the getDocs() or useCollectionData().3 methods.
@@ -39,7 +40,8 @@ function App() {
 function WelcomePage() {
   return (
     <>
-      <div className='App-welcome'>Welcome to {appName}!</div><br/>
+      <div className='App-welcome'>Welcome to {appName}!</div>
+      <br/>
       <div className='App-creator'>Created by Joseph Evans</div>
     </>
   )
@@ -53,7 +55,7 @@ function SignIn() {
   }
 
   return (
-    <button onClick={signInWithGoogle}>Sign in with Google</button>
+    <button onClick={signInWithGoogle}>Sign in</button>
   )
 }
 
@@ -66,18 +68,18 @@ function SignOut() {
 
 // Chatroom component
 function ChatRoom() {
-  const dummy = useRef()
+  const dummy = useRef();
 
-  const messagesRef = Firestore.collection(firestore, 'messages')
-  const order = Firestore.orderBy('createdAt', 'asc')
-  const limit = Firestore.limit(25)
+  const messagesRef = Firestore.collection(firestore, 'messages');
+  const order = Firestore.orderBy('createdAt', 'asc');
+  const limit = Firestore.limit(25);
 
-  const query = Firestore.query(messagesRef, order, limit)
+  const query = Firestore.query(messagesRef, order, limit);
 
   // [values, loading, error, snapshot]
-  const snapshot = useCollectionData(query, {idField: 'id'})[3]
+  const snapshot = useCollectionData(query, {idField: 'id'})[3];
 
-  const [formValue, setFormValue] = useState('')
+  const [formValue, setFormValue] = useState('');
 
   // Add message to database when form submit button is clicked
   const sendMessage = async(e) => {
@@ -86,17 +88,18 @@ function ChatRoom() {
     if (formValue.trim() === '')
       return;
 
-    const { uid, photoURL } = auth.currentUser;
+    const {uid, displayName, photoURL} = auth.currentUser;
 
     await Firestore.addDoc(messagesRef, {
       text: formValue,
       createdAt: Firestore.serverTimestamp(),
       uid,
+      name: displayName,
       photoURL
-    })
+    });
 
-    setFormValue('')
-    dummy.current.scrollIntoView({ behavior: 'smooth' })
+    setFormValue('');
+    dummy.current.scrollIntoView({ behavior: 'smooth' });
   }
   
   return(
@@ -117,7 +120,7 @@ function ChatRoom() {
 
 // Chat message component
 function ChatMessage(props) {
-  const { text, uid, photoURL } = props.message.data();
+  const { text, createdAt, uid, photoURL } = props.message.data();
   const { id } = props.message;
 
   const messageClass = (uid === auth.currentUser.uid) ? 'sent' : 'received';
@@ -127,19 +130,19 @@ function ChatMessage(props) {
   // Toggle between Popups on connect
   const togglePopup = () => {
     if (uid !== auth.currentUser.uid)
-      return
+      return;
 
-  
     const popup = document.getElementById(id);
     popup.classList.toggle("show");
   }
-
+  
   return (
-    <div className={`message ${messageClass}`}>
-      <Popup message = {props.message}/>
-      <img src={photoSrc} alt=''/>
-      <p onClick={togglePopup}>{text}</p>
-    </div>
+      <div className={`message ${messageClass}`}>
+        <Popup message = {props.message}/>
+        <img src={photoSrc} alt=''/>
+        <p onClick={togglePopup}>{text}</p>
+        <div className='message-time'>{createdAt && HHMM_AMPM(createdAt)}</div>
+      </div>
   )
 }
 

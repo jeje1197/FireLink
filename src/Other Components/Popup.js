@@ -1,16 +1,16 @@
 import React from "react";
-import "./Popup.css"
+import "./Popup.css";
 
-import { firestore } from '../Firebase'
+import { firestore } from '../Firebase';
 import { deleteDoc, doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 function Popup(props) {
-    const { uid, createdAt, photoURL} = props.message.data()
-    const { id } = props.message
+    const { uid, createdAt, photoURL} = props.message.data();
+    const { id } = props.message;
 
     // Delete message from database when x is clicked
     const deleteMessage = async() => {
-        await deleteDoc(doc(firestore, 'messages', id))
+        await deleteDoc(doc(firestore, 'messages', id));
     }
 
     // Update message in database
@@ -21,7 +21,7 @@ function Popup(props) {
             createdAt,
             uid,
             photoURL
-        })
+        });
         
         const popup = document.getElementById(id);
         popup.classList.toggle("show");

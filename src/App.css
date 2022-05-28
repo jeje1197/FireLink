@@ -160,6 +160,13 @@ p {
   background-color: darkslategrey;
 }
 
+.message-time {
+  font-size: x-small;
+  padding-top: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 
 .sent {
   flex-direction: row-reverse;
