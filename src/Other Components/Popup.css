@@ -2,7 +2,21 @@
 .popuptext {
     display: none;
 }
-  
+
+.popuptext div {
+    color: white;
+    font-weight: bold;
+    border: 1px solid white;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px;
+    margin: 6px;
+}
+
+.popuptext div:hover {
+    background-color: darkslategrey;
+}
+
   /* Toggle this class - hide and show the popup */
 .show {
     display: inline-flex;
@@ -19,32 +33,4 @@
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity:1 ;}
-}
-
-.close-button {
-    color: white;
-    font-weight: bold;
-    border: 1px solid white;
-    text-align: center;
-    cursor: pointer;
-    padding: 5px;
-    margin: 6px;
-}
-
-.close-button :hover {
-    background-color: darkslategrey;
-}
-
-.edit-button {
-    color: white;
-    font-weight: bold;
-    border: 1px solid white;
-    text-align: center;
-    cursor: pointer;
-    padding: 5px;
-    margin: 6px;
-}
-
-.edit-button :hover {
-    background-color: darkslategrey;
 }

@@ -155,7 +155,8 @@ p {
   align-items: center;
 }
 
-.message :hover{
+.message p:hover{
+  cursor: pointer;
   background-color: darkslategrey;
 }
 
