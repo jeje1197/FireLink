@@ -8,7 +8,7 @@ export function HHMM_AMPM(date) {
 
     const formattedHours = hours < 10 ? '0' + hours : hours;
     const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-    const AM_PM = hours >= 12 ? 'PM' : 'AM';
+    const AM_PM = hours >= 12 ? 'pm' : 'am';
 
     const formattedTime = formattedHours + ':' + formattedMinutes + ' ' + AM_PM;
     

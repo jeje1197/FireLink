@@ -161,10 +161,12 @@ p {
 }
 
 .message-time {
-  font-size: x-small;
+  color: darkgray;
+  font-size: small;
   padding-top: 30px;
   padding-left: 5px;
   padding-right: 5px;
+  padding-bottom: 1px;
 }
 
 
