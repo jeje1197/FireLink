@@ -1,19 +1,11 @@
 /* The actual popup */
 .popuptext {
-    visibility: hidden;
-    width: 160px;
-    /* background-color: #555; */
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px 0;
-    position: absolute;
-    left: 50%;
+    display: none;
 }
   
   /* Toggle this class - hide and show the popup */
 .show {
-    visibility: visible;
+    display: inline-flex;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
 }
@@ -35,7 +27,6 @@
     border: 1px solid white;
     text-align: center;
     cursor: pointer;
-    display: inline-flex;
     padding: 5px;
     margin: 6px;
 }
@@ -50,7 +41,6 @@
     border: 1px solid white;
     text-align: center;
     cursor: pointer;
-    display: inline-flex;
     padding: 5px;
     margin: 6px;
 }
