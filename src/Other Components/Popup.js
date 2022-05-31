@@ -2,11 +2,12 @@ import React from "react";
 import "./Popup.css";
 
 import { firestore } from '../Firebase';
-import { deleteDoc, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { deleteDoc, doc} from "firebase/firestore";
 
 function Popup(props) {
-    const { uid, createdAt, photoURL} = props.message.data();
     const { id } = props.message;
+    const message = props.message.data();
+    const makeEdits = props.makeEdits;
 
     // Delete message from database when x is clicked
     const deleteMessage = async() => {
@@ -14,17 +15,10 @@ function Popup(props) {
     }
 
     // Update message in database
-    const editMessage = async() => {
-        await setDoc(doc(firestore, 'messages', id), {
-            text: 'Edited Message',
-            editedAt: serverTimestamp(),
-            createdAt,
-            uid,
-            photoURL
-        });
-        
+    const editMessage = () => {
         const popup = document.getElementById(id);
         popup.classList.toggle("show");
+        makeEdits(id, message);
     }
 
     return (
