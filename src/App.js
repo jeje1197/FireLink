@@ -51,7 +51,10 @@ function WelcomePage() {
 function SignIn() {
   const signInWithGoogle = () => {
     const provider = new FirebaseAuth.GoogleAuthProvider();
-    FirebaseAuth.signInWithPopup(auth, provider);
+    FirebaseAuth.signInWithPopup(auth, provider)
+      .catch((err) => {
+        console.log("User closed sign-in popup window.");
+      });
   }
 
   return (
