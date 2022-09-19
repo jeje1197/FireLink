@@ -5,6 +5,8 @@ with their friends and family in live time. This application leverages
 tools such as the React.js framework for smooth single-page applications and the Google Firebase API for
 user authentication and message storage in the cloud database.
 
+Tools used: JavaScript, React, HTML, CSS, Google Firebase
+
 # Try it out for yourself:
 Link: https://firelinkchat.netlify.app/
 
