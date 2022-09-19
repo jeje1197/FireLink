@@ -12,3 +12,6 @@ Link: https://firelinkchat.netlify.app/
 2) That's it
 
 Features:
+- Live chatroom
+- Timestamped messages
+- Ability to create, edit or delete messages
